@@ -5,3 +5,22 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+
+const listProduct = {
+    data() {
+        const productsArray = [];
+        for (let i = 0; i < 5; i++) {
+            productsArray.push({
+                name: faker.commerce.productName(),
+                description: faker.commerce.productDescription(),
+                price: faker.commerce.price(),
+                sale: Math.random() > 0.5,
+            });
+        }
+        return {
+            products: productsArray
+        }
+    }
+}
+
+Vue.createApp(listProduct).mount('#app');
