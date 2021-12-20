@@ -14,7 +14,7 @@ const listProduct = {
                 name: faker.commerce.productName(),
                 description: faker.commerce.productDescription(),
                 price: faker.commerce.price(),
-                sale: Math.random() > 0.5,
+                discount: 0,
                 quantity: 3
             });
         }
@@ -26,6 +26,13 @@ const listProduct = {
     methods: {
         remove(i) {
             this.products.splice(i, 1);
+        },
+        sale(i) {
+            return this.products[i].discount > 0;
+        },
+        price(i) {
+            const {price, discount} = this.products[i];
+            return (price - (discount/100) * price).toFixed(2);
         }
     }
 
