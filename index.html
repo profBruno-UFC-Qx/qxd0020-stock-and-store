@@ -160,14 +160,24 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nome</th>
-                                    <th>Descrição</th>
-                                    <th>Quantidade</th>
-                                    <th>Preço</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Qtd</th>
+                                    <th>Price</th>
+                                    <th>Sale</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                <tr v-for="(product, i) in products">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{product.name}}</td>
+                                    <td>{{product.description}}</td>
+                                    <td>{{product.quantity}}</td>
+                                    <td>{{product.price}}</td>
+                                    <td><input type="checkbox" v-model="product.sale"></td>
+                                    <td><button class="btn btn-danger" @click="remove(i)">Delete</button></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
