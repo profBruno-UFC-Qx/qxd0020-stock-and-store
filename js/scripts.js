@@ -11,6 +11,7 @@ const listProduct = {
         const productsArray = [];
         for (let i = 0; i < 3; i++) {
             productsArray.push({
+                id: i + 1,
                 name: faker.commerce.productName(),
                 description: faker.commerce.productDescription(),
                 price: Number(faker.commerce.price()),
@@ -73,8 +74,50 @@ const productCard = {
             </div>`,
 }
 
+const productRow = {
+    props: {
+        id: Number,
+        name: String,
+        description: String,
+        price: Number,
+        quantity: Number,
+        discount: Number
+    },
+    emits: ['update:quantity', 'update:discount'], 
+    computed : {
+        modelDiscount: {
+            get() {
+                return this.discount;
+            }, 
+            set(value) {
+                this.$emit('update:discount', value);
+            }
+        },
+        mQuantity: {
+            get() {
+                return this.quantity;
+            }, 
+            set(value) {
+                this.$emit('update:quantity', value);
+            }
+        }
+    },
+    template: `
+    <tr>
+        <td>{{id}}</td>
+        <td>{{name}}</td>
+        <td>{{description}}</td>
+        <td><input type="number" min="0" step="1" max="1000" v-model="mQuantity"></td>
+        <td>{{price}}</td>
+        <td><input type="number" min="0" max="95" step="5" v-model="modelDiscount"></td>
+        <td><button class="btn btn-danger" @click="$emit('remove', id - 1)">Delete</button></td>
+    </tr>`
+
+}
+
 const app = Vue.createApp(listProduct)
 
 app.component('product-card', productCard);
+app.component('product-row', productRow);
 
 app.mount('#app');

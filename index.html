@@ -153,15 +153,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(product, i) in products">
-                                    <td>{{i + 1}}</td>
-                                    <td>{{product.name}}</td>
-                                    <td>{{product.description}}</td>
-                                    <td><input type="number" min="0" step="1" max="1000" v-model="product.quantity"></td>
-                                    <td>{{product.price}}</td>
-                                    <td><input type="number" min="0" max="95" step="5" v-model="product.discount"></td>
-                                    <td><button class="btn btn-danger" @click="remove(i)">Delete</button></td>
-                                </tr>
+                                <tr is="vue:product-row" v-for="(product, i) in products"
+                                @remove="remove"
+                                :id="product.id"
+                                :name="product.name"
+                                :description="product.description"
+                                v-model:quantity="product.quantity"
+                                :price="product.price"
+                                v-model:discount="product.discount"></tr>
                             </tbody>
                         </table>
                     </div>
