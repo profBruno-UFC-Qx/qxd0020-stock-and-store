@@ -6,17 +6,18 @@
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
 
-const listProduct = {
+const root = {
     data() {
         const productsArray = [];
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             productsArray.push({
                 id: i + 1,
                 name: faker.commerce.productName(),
                 description: faker.commerce.productDescription(),
                 price: Number(faker.commerce.price()),
                 discount: 0,
-                quantity: 3
+                quantity: 3,
+                rating: Math.floor(Math.random() * 5)
             });
         }
         return {
@@ -25,11 +26,26 @@ const listProduct = {
     },
 
     methods: {
-        remove(i) {
-            this.products.splice(i, 1);
-        },
+        remove(id) {
+            let index = 0;
+            for (let product of this.products) {
+              if (product.id === id) {
+                break;
+              }
+              index = index + 1;
+            }
+            this.products.splice(index, 1);
+        }
     }
 
+}
+
+const listProduct = {
+    template: `
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <slot></slot>
+        </div>
+    `
 }
 
 const productCard = {
@@ -37,7 +53,8 @@ const productCard = {
         name: String,
         price: Number,
         quantity: Number,
-        discount: Number
+        discount: Number,
+        rating: Number
     },
     computed : {
         sale() {
@@ -57,6 +74,10 @@ const productCard = {
                         <div class="text-center">
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{name}}</h5>
+                            <!-- Product reviews-->
+                            <div v-if="rating" class="d-flex justify-content-center small text-warning mb-2">
+                                <div v-for="i in rating" class="bi-star-fill"></div>
+                            </div>
                             <!-- Product price-->
                             <span v-if="sale" class="text-muted text-decoration-line-through">R\${{price}}</span>
                             <span v-if="sale"> R\${{priceWithDiscount}}</span>
@@ -74,7 +95,33 @@ const productCard = {
             </div>`,
 }
 
-const productRow = {
+const stock = {
+    template: `<div class="row gx-4 gx-lg-5">
+                    <div class="col">
+                        <h2>Estoque</h2>
+                        <hr>
+                        <table class="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Qtd</th>
+                                    <th>Price</th>
+                                    <th>Discount(%)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <slot></slot>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    `
+}
+
+const stockItem = {
     props: {
         id: Number,
         name: String,
@@ -115,9 +162,12 @@ const productRow = {
 
 }
 
-const app = Vue.createApp(listProduct)
+const app = Vue.createApp(root)
 
+app.component('list-product', listProduct);
 app.component('product-card', productCard);
-app.component('product-row', productRow);
+
+app.component('stock', stock);
+app.component('stock-item', stockItem);
 
 app.mount('#app');
