@@ -1,33 +1,35 @@
-<script lang="ts">
-    export default {
-        props: {
-            id: Number,
-            name: String,
-            description: String,
-            price: Number,
-            quantity: Number,
-            discount: Number
-        },
-        emits: ['update:quantity', 'update:discount'], 
-        computed : {
-            modelDiscount: {
-                get() {
-                    return this.discount;
-                }, 
-                set(value) {
-                    this.$emit('update:discount', value);
-                }
-            },
-            mQuantity: {
-                get() {
-                    return this.quantity;
-                }, 
-                set(value) {
-                    this.$emit('update:quantity', value);
-                }
-            }
-        },
-    }
+<script setup lang="ts">
+import { computed } from "@vue/runtime-core";
+
+    
+    const props = defineProps<{
+        id: number,
+        name: string,
+        description: string,
+        price: number,
+        quantity: number,
+        discount: number
+    }>();
+
+    const emit = defineEmits(['update:quantity', 'update:discount', 'remove']);
+     
+    const modelDiscount = computed({
+        get() {
+            return props.discount;
+        }, 
+        set(value) {
+            emit('update:discount', value);
+        }
+    });
+            
+    const mQuantity = computed({
+        get() {
+            return props.quantity;
+        }, 
+        set(value) {
+            emit('update:quantity', value);
+        }
+    });
 </script>
 
 <template>

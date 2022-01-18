@@ -1,10 +1,13 @@
-<script lang="ts">
-
-import './assets/js/faker.min.js';
+<script setup lang="ts">
 import ProductCard from './components/ProductCard.vue';
 import Stock from './components/Stock.vue';
 import StockItem from './components/StockItem.vue';
 import ListProduct from './components/ListProduct.vue';
+</script>
+
+<script lang="ts">
+
+import './assets/js/faker.min.js';
 
 export default {
     data() {
@@ -36,9 +39,7 @@ export default {
             this.products.splice(index, 1);
         },
     },
-    components: {
-        ListProduct, ProductCard, Stock, StockItem
-    }
+   
 }
 </script>
 
