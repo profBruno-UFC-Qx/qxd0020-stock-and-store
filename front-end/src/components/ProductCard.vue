@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { computed } from "@vue/runtime-core";
 
-
-    const props = defineProps<{
-        name: string,
-        price: number,
-        quantity: number,
-        discount: number,
-        rating: number
-    }>();
+const props = defineProps<{
+    name: string,
+    price: number,
+    quantity: number,
+    discount: number,
+    rating: number
+}>();
+    
+const sale = computed((): boolean =>  props.discount > 0);
         
-    const sale = computed((): boolean =>  props.discount > 0);
-            
-    const priceWithDiscount = computed((): string  => (props.price - (props.discount/100) * props.price).toFixed(2));
-    
-    
+const priceWithDiscount = computed((): string  => (props.price - (props.discount/100) * props.price).toFixed(2));
+
+
 </script>
 
 <template>
